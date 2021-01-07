@@ -1,8 +1,11 @@
 package com.pedrodisanti.libraryapi.api.resource;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.pedrodisanti.libraryapi.api.dto.BookDTO;
+import com.pedrodisanti.libraryapi.exception.BusinessException;
 import com.pedrodisanti.libraryapi.model.entity.Book;
 import com.pedrodisanti.libraryapi.service.BookService;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,6 +28,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -45,11 +49,7 @@ public class BookControllerTest {
     @Test
     @DisplayName("Should create a book with success.")
     public void createBookTest() throws Exception{
-        BookDTO dto = BookDTO.builder()
-                .author("Alexandre Dumas")
-                .title("O Conde de Monte Cristo")
-                .isbn("27011994")
-                .build();
+        BookDTO dto = createNewBook();
 
         Book savedBook = Book.builder()
                 .id(1)
@@ -77,8 +77,47 @@ public class BookControllerTest {
 
     @Test
     @DisplayName("Should thrown an error because book's information are invalid.")
-    public void createInvalidBookTest(){
+    public void createInvalidBookTest() throws Exception {
+        String json = new ObjectMapper().writeValueAsString(new BookDTO());
 
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(BOOK_API)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json);
+
+        mvc.perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("errors", hasSize(3)));
+    }
+
+    @Test
+    @DisplayName("Should thrown an error when a book's isbn is already registered.")
+    public void createBookWithDuplicatedIsbn() throws Exception{
+        BookDTO dto = createNewBook();
+
+        String json = new ObjectMapper().writeValueAsString(dto);
+        String messageError = "Isbn já cadastrado.";
+
+        BDDMockito.given(service.save(Mockito.any(Book.class))).willThrow(new BusinessException(messageError));
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(BOOK_API)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json);
+
+
+        mvc.perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("errors", hasSize(1)))
+                .andExpect(jsonPath("errors[0]").value(messageError));
+    }
+
+    private BookDTO createNewBook() {
+        return BookDTO.builder()
+                .author("Alexandre Dumas")
+                .title("O Conde de Monte Cristo")
+                .isbn("27011994")
+                .build();
     }
 }
 
