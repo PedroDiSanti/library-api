@@ -25,13 +25,25 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Optional<Book> getById(Long id) { return Optional.empty(); }
-
-    @Override
-    public Book update(Book book) {
-        return book;
+    public Optional<Book> getById(Long id) {
+        return this.repository.findById(id);
     }
 
     @Override
-    public void delete(Book book) { }
+    public Book update(Book book) {
+        if(book == null){
+            throw new IllegalArgumentException("Book should not be null.");
+        }
+
+        return this.repository.save(book);
+    }
+
+    @Override
+    public void delete(Book book) {
+        if(book == null){
+            throw new IllegalArgumentException("Book should not be null.");
+        }
+
+        this.repository.delete(book);
+    }
 }
