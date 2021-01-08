@@ -7,6 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.Optional;
+
 @SpringBootApplication
 public class LibraryApiApplication {
 
@@ -21,6 +23,21 @@ public class LibraryApiApplication {
 			@Override
 			public Book save(Book entity) {
 				return null;
+			}
+
+			@Override
+			public Optional<Book> getById(Long id) {
+				return Optional.empty();
+			}
+
+			@Override
+			public Book update(Book book) {
+				return book;
+			}
+
+			@Override
+			public void delete(Book book) {
+
 			}
 		};
 	}
