@@ -6,6 +6,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 
@@ -28,6 +30,11 @@ public class LibraryApiApplication {
 			@Override
 			public Optional<Book> getById(Long id) {
 				return Optional.empty();
+			}
+
+			@Override
+			public Page<Book> find(Book filter, Pageable pageRequest) {
+				return null;
 			}
 
 			@Override
