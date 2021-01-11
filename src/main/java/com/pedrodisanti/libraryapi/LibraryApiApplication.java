@@ -43,9 +43,10 @@ public class LibraryApiApplication {
 			}
 
 			@Override
-			public void delete(Book book) {
+			public void delete(Book book) { }
 
-			}
+			@Override
+			public Optional<Book> getBookByIsbn(String isbn) { return Optional.empty(); }
 		};
 	}
 
