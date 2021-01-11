@@ -17,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -24,9 +25,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import org.springframework.data.domain.Pageable;
-
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -35,10 +33,10 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
+@WebMvcTest(controllers = BookController.class)
 public class BookControllerTest {
     static String BOOK_API = "/api/books";
 
@@ -158,11 +156,11 @@ public class BookControllerTest {
         long id = 1L;
 
         Book book = Book.builder()
-                        .id(id)
-                        .title(createNewBook().getTitle())
-                        .author(createNewBook().getAuthor())
-                        .isbn(createNewBook().getIsbn())
-                        .build();
+                .id(id)
+                .title(createNewBook().getTitle())
+                .author(createNewBook().getAuthor())
+                .isbn(createNewBook().getIsbn())
+                .build();
 
         BDDMockito.given(service.find(Mockito.any(Book.class), Mockito.any(Pageable.class)))
                 .willReturn(new PageImpl<Book>(Collections.singletonList(book), PageRequest.of(0, 100), 1));

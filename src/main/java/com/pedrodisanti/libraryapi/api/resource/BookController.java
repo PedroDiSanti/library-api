@@ -1,8 +1,6 @@
 package com.pedrodisanti.libraryapi.api.resource;
 
 import com.pedrodisanti.libraryapi.api.dto.BookDTO;
-import com.pedrodisanti.libraryapi.api.exception.ApiErrors;
-import com.pedrodisanti.libraryapi.exception.BusinessException;
 import com.pedrodisanti.libraryapi.model.entity.Book;
 import com.pedrodisanti.libraryapi.service.BookService;
 import org.modelmapper.ModelMapper;
@@ -11,8 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -85,19 +81,5 @@ public class BookController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         service.delete(book);
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ApiErrors handleValidationExceptions(MethodArgumentNotValidException ex){
-        BindingResult bindingResult = ex.getBindingResult();
-
-        return new ApiErrors(bindingResult);
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(BusinessException.class)
-    public ApiErrors handleBusinessExceptions(BusinessException ex){
-        return new ApiErrors(ex);
     }
 }
