@@ -90,7 +90,7 @@ public class BookRepositoryTest {
         assertThat(deletedBook).isNull();
     }
 
-    private Book createNewBook() {
+    public static Book createNewBook() {
         return Book.builder()
                 .title("O Conde de Monte Cristo")
                 .author("Alexandre Dumas")
