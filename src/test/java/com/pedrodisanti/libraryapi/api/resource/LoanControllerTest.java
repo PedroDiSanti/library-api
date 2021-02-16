@@ -8,7 +8,6 @@ import com.pedrodisanti.libraryapi.exception.BusinessException;
 import com.pedrodisanti.libraryapi.model.entity.Book;
 import com.pedrodisanti.libraryapi.model.entity.Loan;
 import com.pedrodisanti.libraryapi.service.BookService;
-import com.pedrodisanti.libraryapi.service.BookServiceTest;
 import com.pedrodisanti.libraryapi.service.LoanService;
 import com.pedrodisanti.libraryapi.service.LoanServiceTest;
 import org.hamcrest.Matchers;
@@ -32,13 +31,9 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Optional;
 
-import static com.pedrodisanti.libraryapi.model.repository.BookRepositoryTest.createNewBook;
-import static java.util.Arrays.asList;
-import static java.util.Collections.*;
+import static java.util.Collections.singletonList;
 import static java.util.Optional.of;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
