@@ -7,6 +7,7 @@ import com.pedrodisanti.libraryapi.model.entity.Loan;
 import com.pedrodisanti.libraryapi.service.BookService;
 import com.pedrodisanti.libraryapi.service.LoanService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -19,6 +20,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/books")

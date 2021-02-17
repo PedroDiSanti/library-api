@@ -8,6 +8,7 @@ import com.pedrodisanti.libraryapi.model.entity.Loan;
 import com.pedrodisanti.libraryapi.service.BookService;
 import com.pedrodisanti.libraryapi.service.LoanService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,7 @@ import java.time.LocalDate;
 
 import static com.pedrodisanti.libraryapi.api.resource.BookController.getLoanDTOS;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/loans")
 @RequiredArgsConstructor
