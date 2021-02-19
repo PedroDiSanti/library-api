@@ -1,8 +1,18 @@
 language: java
+
 jdk:
   - oraclejdk8
+
 dist: trusty
+
 before_install:
   - chmod +x mvnw
+<<<<<<< HEAD
+
+script:
+  - mvn clean package
+
+=======
+>>>>>>> main
 after_success:
   - bash <(curl -s https://codecov.io/bash)
